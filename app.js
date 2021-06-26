@@ -21,7 +21,17 @@ const game = {
     },
     getGuess: function() {
       let guess = prompt(`Enter a guess between ${this.smallestNum} and ${this.biggestNum}`);
-      if (parseInt(guess)) {
+      let parsedGuess = parseInt(guess);
+
+      if (parsedGuess > this.biggestNum) {
+        alert("You can't enter a number bigger than the biggest number");
+        this.getGuess();
+      }
+      else if (parsedGuess < this.smallestNum) {
+        alert("You can't enter a number smaller than the smallest number");
+        this.getGuess();
+      }
+      else if (parsedGuess) {
         return guess;
       }
       else {
@@ -34,11 +44,11 @@ const game = {
         latestGuess = this.prevGuesses[this.prevGuesses.length - 1];
 
         if (latestGuess > this.secretNum) {
-          alert('Guess lower!');
+          alert(`Your guess is too high! Previous guesses: ${this.prevGuesses.join(', ')}`);
           this.biggestNum = latestGuess;
         }
         else if (latestGuess < this.secretNum) {
-          alert('Guess higher!');
+          alert(`Your guess is too low! Previous guesses: ${this.prevGuesses.join(', ')}`)
           this.smallestNum = latestGuess;
         }
         else {
@@ -50,9 +60,5 @@ const game = {
     }
   }
 
-  //1. Allow player to continually be prompted to enter their guess until correct
-  //2. If player guess incorrect, alert them with 'too high' or 'too low'
-  //3. Maintain list of all previously guessed numbers
-  //4. If player guesses correctly, display alert with congratulations and how many guesses it took
 
 game.play();
