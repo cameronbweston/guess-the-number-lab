@@ -6,6 +6,7 @@ const game = {
     prevGuesses: [],
 
     play: function() {
+      this.getGameRange();
       this.secretNum = Math.floor(Math.random() * (this.biggestNum - this.smallestNum + 1)) + this.smallestNum;
       
       while (this.secretNum != null) {
@@ -19,23 +20,35 @@ const game = {
         game.render();
       }
     },
-    getGuess: function() {
-      let guess = prompt(`Enter a guess between ${this.smallestNum} and ${this.biggestNum}`);
-      let parsedGuess = parseInt(guess);
+    getGameRange: function() {
+        let topRange = parseInt(prompt('Enter a number to set the top range of the game:'));
+        let bottomRange = parseInt(prompt('Enter a number to set the bottom range of the game:'));
 
-      if (parsedGuess > this.biggestNum) {
+        if (topRange && bottomRange) {
+          this.biggestNum = topRange;
+          this.bottomRange = bottomRange;
+        }
+        else {
+          alert('One of those is not a whole number, please try again!');
+          this.getGameRange();
+        }
+    },
+    getGuess: function() {
+      let guess = parseInt(prompt(`Enter a guess between ${this.smallestNum} and ${this.biggestNum}`));
+
+      if (guess > this.biggestNum) {
         alert("You can't enter a number bigger than the biggest number");
         this.getGuess();
       }
-      else if (parsedGuess < this.smallestNum) {
+      else if (guess < this.smallestNum) {
         alert("You can't enter a number smaller than the smallest number");
         this.getGuess();
       }
-      else if (parsedGuess) {
+      else if (guess) {
         return guess;
       }
       else {
-        alert('That is not a number, please try again!');
+        alert('That is not a whole number, please try again!');
         this.getGuess();
       }
     },
@@ -59,6 +72,5 @@ const game = {
       }
     }
   }
-
 
 game.play();
