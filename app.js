@@ -8,10 +8,10 @@ const game = {
     play: function() {
       this.secretNum = Math.floor(Math.random() * (this.biggestNum - this.smallestNum + 1)) + this.smallestNum;
       
-      while (this.biggestNum != this.secretNum || this.smallestNum != this.secretNum) {
+      while (this.secretNum != null) {
         //Debugging
         console.log(this.prevGuesses);
-        console.log(`current biggest num: ${this.biggestNum} and current smallest num: ${this.smallestNum}`);
+        console.log(`current biggest num: ${this.biggestNum} and current smallest num: ${this.smallestNum} and secret num: ${this.secretNum}`);
 
         let guess = this.getGuess();
         this.prevGuesses.push(guess);
@@ -43,6 +43,7 @@ const game = {
         }
         else {
           //WON THE GAME
+          this.secretNum = null;
           alert(`Congrats! You guessed the number in ${game.prevGuesses.length} guesses.`);
         }
       }
